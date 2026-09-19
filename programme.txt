@@ -1,0 +1,15 @@
+# UTF-8. Eine Zeile pro Programm: Anzeigename | Programmpfad
+# Leerzeichen im Namen und im Pfad sind erlaubt.
+# [Gruppenname] erzeugt eine Überschrift mit Trennlinie.
+# Relative Pfade beziehen sich auf den Ordner der Programmstarter.exe.
+
+[Windows-Werkzeuge]
+Texteditor | %WINDIR%\System32\notepad.exe
+Taschenrechner | %WINDIR%\System32\calc.exe
+
+[Dateien]
+Datei-Explorer | %WINDIR%\explorer.exe
+
+# Eigene Einträge ergänzen, zum Beispiel:
+# [Entwicklung]
+# Mein Programm | G:\Meine Programme\MeinProgramm.exe

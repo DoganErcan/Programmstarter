@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64"><Configuration>Debug</Configuration><Platform>x64</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64"><Configuration>Release</Configuration><Platform>x64</Platform></ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9AF79D61-5F22-4FCF-886C-790169E2A749}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword><RootNamespace>Programmstarter</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <VcpkgRoot Condition="'$(VcpkgRoot)'==''">C:\vcpkg\</VcpkgRoot>
+    <VcpkgTriplet>x64-windows</VcpkgTriplet>
+    <VcpkgEnableManifest>false</VcpkgEnableManifest>
+    <StarterMode Condition="'$(StarterMode)'==''">App</StarterMode>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType><PlatformToolset>v145</PlatformToolset><CharacterSet>Unicode</CharacterSet>
+    <UseDebugLibraries Condition="'$(Configuration)'=='Debug'">true</UseDebugLibraries>
+    <UseDebugLibraries Condition="'$(Configuration)'!='Debug'">false</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(VcpkgRoot)\scripts\buildsystems\msbuild\vcpkg.props" Condition="'$(VcpkgPropsImported)'!='true'" />
+  <PropertyGroup>
+    <GtkPrefix>$(VcpkgRoot)installed\x64-windows</GtkPrefix>
+    <OutDir>$(ProjectDir)bin\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)obj\$(Configuration)\$(StarterMode)\</IntDir>
+    <TargetName>Programmstarter</TargetName>
+    <LocalDebuggerWorkingDirectory>$(OutDir)</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel><SDLCheck>true</SDLCheck>
+      <LanguageStandard_C>stdc17</LanguageStandard_C><CompileAs>CompileAsC</CompileAs>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <PreprocessorDefinitions>UNICODE;_UNICODE;_CRT_SECURE_NO_WARNINGS;GRAPHENE_HAS_SSE2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(GtkPrefix)\include\gtk-4.0;$(GtkPrefix)\include\glib-2.0;$(GtkPrefix)\lib\glib-2.0\include;$(GtkPrefix)\include\pango-1.0;$(GtkPrefix)\include\cairo;$(GtkPrefix)\include\gdk-pixbuf-2.0;$(GtkPrefix)\include\graphene-1.0;$(GtkPrefix)\lib\graphene-1.0\include;$(GtkPrefix)\include\harfbuzz;$(GtkPrefix)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>gtk-4.lib;glib-2.0.lib;gobject-2.0.lib;gio-2.0.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="programmstarter.c" Condition="'$(StarterMode)'=='App'" />
+    <ClCompile Include="tests\starter_tests.c" Condition="'$(StarterMode)'=='Test'" />
+    <ClCompile Include="tests\probe.c" Condition="'$(StarterMode)'=='Probe'" />
+    <None Include="programme.txt" /><None Include="README.md" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(VcpkgRoot)\scripts\buildsystems\msbuild\vcpkg.targets" Condition="'$(_ZVcpkgRoot)'==''" />
+  <Target Name="StarterData" AfterTargets="Build" Condition="'$(StarterMode)'!='Probe'">
+    <!-- Never overwrite an edited runtime list during a rebuild. -->
+    <Copy SourceFiles="$(ProjectDir)programme.txt" DestinationFolder="$(OutDir)" Condition="!Exists('$(OutDir)programme.txt')" />
+    <MakeDir Directories="$(OutDir)share\glib-2.0\schemas" />
+    <Exec Command="&quot;$(GtkPrefix)\tools\glib\glib-compile-schemas.exe&quot; --strict --targetdir=&quot;$(OutDir)share\glib-2.0\schemas&quot; &quot;$(GtkPrefix)\share\glib-2.0\schemas&quot;" />
+  </Target>
+</Project>
