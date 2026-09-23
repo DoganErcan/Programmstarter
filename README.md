@@ -32,7 +32,7 @@ Beim Bauen werden die benötigten GTK-DLLs und GSettings-Schemas neben die EXE k
 
 Beim Start sucht das Programm die Datei <code>programme.txt</code> im selben Ordner wie die gestartete EXE. Für einen Release-Build liegt sie normalerweise unter <code>bin\\Release\\programme.txt</code>, für einen Debug-Build unter <code>bin\\Debug\\programme.txt</code>.
 
-Falls sie dort noch nicht vorhanden ist, die Datei aus der Vorlage im Projektordner kopieren oder selbst anlegen. Ein Beispiel:
+Falls sie dort noch nicht vorhanden ist, die Datei nach dem Beispiel unten anlegen. Ein Beispiel:
 
 ~~~text
 [Werkzeuge]
@@ -105,7 +105,7 @@ Nicht nur die EXE kopieren. Den vollständigen Ausgabeordner mit DLLs und dem Or
 - <code>Programmstarter.vcxproj</code> – Projekt- und vcpkg-Konfiguration
 - <code>programmstarter.c</code> – Quellcode
 - <code>Vorschau.png</code> – Bildschirmansicht
-- <code>programme.txt</code> – Beispiel bzw. Vorlage für die Programmliste
+- <code>programme.txt</code> – lokale Konfigurationsdatei neben der EXE (nicht Bestandteil des Repositorys)
 
 Eigene Pfade in <code>programme.txt</code> sind immer rechnerabhängig. Vor einer Weitergabe muss die Liste daher an den Zielrechner angepasst werden.
 
