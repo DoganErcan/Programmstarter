@@ -1,4 +1,0 @@
-Debug und Release x64: erfolgreich, keine Compiler-/Buildwarnungen.
-PASS: 21 Pruefungen. Parser, Unicode, Pfade, Reload, echter Programmstart, Fenster bleibt offen, Screenshot.
-PE-Subsystem beider Anwendungen: Windows GUI (2), kein Konsolen-Subsystem.
-Vorschau aus dem echten GTK-Fenster visuell geprueft.
