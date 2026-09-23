@@ -229,7 +229,7 @@ static void reload_clicked ( GtkButton* button, gpointer unused )
 		{
 			GtkWidget* title = gtk_label_new ( item->name );
 			gtk_label_set_xalign ( GTK_LABEL ( title ), 0 );
-			gtk_widget_add_css_class ( title, "heading" );
+			gtk_widget_add_css_class ( title, "heading" ); // Schriftgröße Gruppe 
 			gtk_widget_set_margin_top ( title, i ? 16 : 4 );
 			gtk_box_append ( GTK_BOX ( list ), title );
 			gtk_box_append ( GTK_BOX ( list ), gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL ) );
@@ -278,23 +278,23 @@ static void activate ( GtkApplication* app, gpointer unused )
 	window = gtk_application_window_new ( app );
 
 	char* list_name = g_path_get_basename ( config_path );
-	char* window_title = g_strdup_printf ( "Programmstarter — %s", list_name );
+	char* window_title = g_strdup_printf ( "Starter — %s", list_name );
 
 	gtk_window_set_title ( GTK_WINDOW ( window ), window_title );
 	g_free ( window_title );
 	g_free ( list_name );
 
-	gtk_window_set_default_size ( GTK_WINDOW ( window ), 420, 800 );
+	gtk_window_set_default_size ( GTK_WINDOW ( window ), 440, 800 );
 	GtkWidget* box = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 12 );
 
-	gtk_widget_set_margin_start ( box, 18 );
-	gtk_widget_set_margin_end ( box, 18 );
-	gtk_widget_set_margin_top ( box, 18 );
-	gtk_widget_set_margin_bottom ( box, 18 );
+	gtk_widget_set_margin_start ( box, 6 );
+	gtk_widget_set_margin_end ( box, 6 );
+	gtk_widget_set_margin_top ( box, 6 );
+	gtk_widget_set_margin_bottom ( box, 6 );
 	gtk_window_set_child ( GTK_WINDOW ( window ), box );
 
 	GtkWidget* title = gtk_label_new ( "Meine Programme" );
-	gtk_widget_add_css_class ( title, "title-2" );
+	gtk_widget_add_css_class ( title, "title-4" );  // Schriftgröße Programmüberschrift
 	gtk_label_set_xalign ( GTK_LABEL ( title ), 0 );
 	gtk_box_append ( GTK_BOX ( box ), title );
 

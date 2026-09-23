@@ -1,6 +1,10 @@
 .vs/
 bin/
 obj/
+tests/
 *.user
 *.suo
 *.log
+README.md
+TESTBERICHT.txt
+programme.txt
