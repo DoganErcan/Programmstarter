@@ -1,5 +1,5 @@
 ﻿// ==============================================================================================
-// Programmstarter – C17 / GTK 4 / Windows, ohne Konsolenfenster. 
+// Programmstarter - C17 / GTK 4 / Windows, ohne Konsolenfenster. 
 // ==============================================================================================
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>

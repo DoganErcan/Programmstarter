@@ -5,6 +5,8 @@ tests/
 *.user
 *.suo
 *.log
+.gitignore
 README.md
+doku
 TESTBERICHT.txt
 programme.txt
