@@ -1,73 +1,114 @@
-# GTK-Programmstarter – erste Version
+# GTK-Programmstarter
 
-Eigenstaendiges C-Projekt fuer Visual Studio und GTK 4 unter Windows.
-Der Starter hat kein Konsolenfenster. Seine Liste bleibt nach dem Start eines
-Programms offen. Gestartete Programme laufen unabhaengig weiter.
+Ein kleiner Programmstarter für Windows, geschrieben in C17 mit GTK 4. Er liest eine einfache Textdatei, zeigt die Programme nach Gruppen an und startet sie ohne zusätzliches Konsolenfenster.
 
-## In Visual Studio starten
+![Vorschau des GTK-Programmstarters](Vorschau.png)
 
-1. ZIP beispielsweise nach `G:\Code\C\VS\GTK_Programmstarter` entpacken.
-2. `Programmstarter.slnx` oeffnen.
-3. **Release | x64** oder **Debug | x64** waehlen.
-4. **Erstellen → Projektmappe erstellen**, danach **F5**.
+## Was kann der Programmstarter?
 
-Das Projekt verwendet dein vorhandenes GTK 4 in `C:\vcpkg`, Triplet `x64-windows`,
-und Visual Studio mit Toolset v145. Bei einem anderen vcpkg-Pfad die Eigenschaft
-`VcpkgRoot` im Projekt anpassen (mit abschliessendem Backslash).
-Die benoetigten GTK-DLLs und GSettings-Schemas werden beim Bauen neben die EXE gelegt.
-Beim Weitergeben den ganzen Ausgabeordner kopieren, nicht nur die EXE.
+- Programme aus einer frei bearbeitbaren Textdatei anzeigen
+- Einträge mit eigenen Namen und Windows-Pfaden anlegen
+- Programme in Gruppen wie Werkzeuge, Dateien oder Entwicklung ordnen
+- Programme per Schaltfläche starten
+- Die Liste bearbeiten und anschließend ohne Neustart neu laden
+- Das Hauptfenster geöffnet lassen, während gestartete Programme weiterlaufen
+- UTF-8, Umlaute, Leerzeichen und Windows-Umgebungsvariablen verarbeiten
 
-## Programmliste
+## Schnellstart unter Windows
 
-Die aktive `programme.txt` liegt **neben der gestarteten EXE**:
+Der Programmstarter wird aus dem Quellcode mit Visual Studio und GTK 4 gebaut.
 
-- Release: `bin\Release\programme.txt`
-- Debug: `bin\Debug\programme.txt`
+1. Dieses Repository klonen oder als ZIP herunterladen.
+2. <code>Programmstarter.slnx</code> in Visual Studio öffnen.
+3. Als Konfiguration <code>Release</code> oder <code>Debug</code> und als Plattform <code>x64</code> wählen.
+4. **Erstellen → Projektmappe erstellen** ausführen.
+5. Die erzeugte <code>Programmstarter.exe</code> aus dem Ausgabeordner starten.
 
-**Liste bearbeiten** oeffnet genau diese Datei im zugeordneten Texteditor.
-Nach dem Speichern **Neu laden** anklicken.
-Die Datei im Projektordner ist die Vorlage fuer den ersten Build.
-Bereits vorhandene Listen im Ausgabeordner werden beim Neubauen bewusst nicht ueberschrieben.
-Eigene Listen separat sichern; fuer Git kannst du sie als Projektvorlage uebernehmen.
+Das Projekt ist auf GTK 4 über vcpkg mit dem Triplet <code>x64-windows</code> vorbereitet. Standardmäßig wird <code>C:\vcpkg</code> verwendet. Liegt vcpkg an einem anderen Ort, muss im Projekt die Eigenschaft <code>VcpkgRoot</code> mit abschließendem Backslash angepasst werden.
 
-Als **UTF-8** speichern; Windows-Zeilenenden und UTF-8-BOM sind erlaubt.
+Beim Bauen werden die benötigten GTK-DLLs und GSettings-Schemas neben die EXE kopiert. Für eine Weitergabe immer den vollständigen Ausgabeordner kopieren, nicht nur die EXE.
 
-```text
+## Die Programmliste programme.txt
+
+Beim Start sucht das Programm die Datei <code>programme.txt</code> im selben Ordner wie die gestartete EXE. Für einen Release-Build liegt sie normalerweise unter <code>bin\\Release\\programme.txt</code>, für einen Debug-Build unter <code>bin\\Debug\\programme.txt</code>.
+
+Falls sie dort noch nicht vorhanden ist, die Datei nach dem Beispiel unten anlegen. Ein Beispiel:
+
+~~~text
 [Werkzeuge]
-Texteditor | %WINDIR%\System32\notepad.exe
-Taschenrechner | %WINDIR%\System32\calc.exe
+Texteditor | %WINDIR%\\System32\\notepad.exe
+Taschenrechner | %WINDIR%\\System32\\calc.exe
 
 [Entwicklung]
-Mein Programm | G:\Meine Programme\MeinProgramm.exe
-Noch ein Programm | Unterordner\AnderesProgramm.exe
-```
+Visual Studio | devenv.exe
+Mein Programm | C:\\MeineProgramme\\MeinProgramm.exe
 
-- Ein Eintrag je Zeile: **Anzeigename | Pfad**.
-- `[Gruppenname]` erzeugt eine Ueberschrift mit Trennlinie.
-- Leerzeilen werden ignoriert. Kommentarzeilen beginnen mit `#` oder `;`.
-- Leerzeichen und Umlaute sind erlaubt. Anfuehrungszeichen um den Pfad sind optional.
-- Relative Pfade beziehen sich auf den Ordner der Starter-EXE.
-- Windows-Variablen wie `%WINDIR%` und `%LOCALAPPDATA%` werden aufgeloest.
-- Startparameter hinter dem EXE-Pfad sind in dieser ersten Version noch nicht vorgesehen.
-- Jedes Anklicken startet das ausgewaehlte Programm. Manche Programme verwenden selbst nur eine Instanz.
-- Das Arbeitsverzeichnis des gestarteten Programms ist sein eigener Ordner.
-- Bei Startfehlern erscheint eine Meldung unten im Starter.
-- Bei einem Formatfehler nach Neu laden bleibt die vorherige Liste erhalten.
+# Diese Zeile ist ein Kommentar
+; Auch diese Zeile wird ignoriert
+~~~
 
-Der Starter selbst laeuft ohne Konsole. Ein gestartetes Konsolenprogramm darf
-weiterhin sein eigenes Konsolenfenster anzeigen.
+Die Regeln sind:
 
-## Technik
+- Eine Gruppe steht allein in eckigen Klammern, zum Beispiel <code>[Werkzeuge]</code>.
+- Ein Programm steht als <code>Anzeigename | Pfad</code> in einer Zeile.
+- Leerzeilen sowie Zeilen mit <code>#</code> oder <code>;</code> werden ignoriert.
+- Leerzeichen und Umlaute sind erlaubt.
+- Anführungszeichen um den Pfad sind optional.
+- Relative Pfade beziehen sich auf den Ordner der Programmstarter-EXE.
+- Variablen wie <code>%WINDIR%</code> und <code>%LOCALAPPDATA%</code> werden aufgelöst.
+- Das Zeichen <code>|</code> darf nicht im Pfad vorkommen.
+- Startparameter hinter dem EXE-Pfad sind in dieser Version nicht vorgesehen.
+- Die Datei sollte als UTF-8 gespeichert werden. UTF-8 mit BOM wird ebenfalls akzeptiert.
 
-`programmstarter.c` enthaelt Parser, Oberflaeche und Programmstart.
-`wWinMain` und das Windows-Subsystem vermeiden das zusaetzliche Konsolenfenster.
-`ShellExecuteExW` startet Programme, ohne auf deren Ende zu warten.
-Es wird kein Kommandozeilen-Interpreter fuer die Programmpfade verwendet.
+Die Datei im Projektordner dient als Vorlage. Eine bereits vorhandene Datei im Ausgabeordner wird beim Neubauen nicht automatisch überschrieben.
 
-## Pruefungen
+## Liste bearbeiten und neu laden
 
-`tests/starter_tests.c` prueft Format, Unicode, Leerzeichen, Umgebungsvariablen,
-Fehlermeldungen, fehlgeschlagenes Neuladen und einen echten Start des eigenen
-Testprogramms in einem Ordner mit Umlaut und Leerzeichen. Dabei bleibt das
-GTK-Fenster geoeffnet. Das Testprogramm startet keine eingetragenen Benutzerprogramme.
-`tests/probe.c` schreibt nur eine Testmarkierung und beendet sich.
+1. Den Programmstarter starten.
+2. **Liste bearbeiten** anklicken. Die aktive <code>programme.txt</code> wird im zugeordneten Texteditor geöffnet.
+3. Einträge ändern, hinzufügen oder löschen.
+4. Die Datei speichern.
+5. Im Programmstarter **Neu laden** anklicken.
+
+Die sichtbare Liste wird erst nach dem erfolgreichen Neuladen ersetzt. Wenn die neue Datei nicht gelesen werden kann oder einen Formatfehler enthält, bleibt die vorherige funktionierende Liste erhalten.
+
+Jede Programmschaltfläche startet den eingetragenen Pfad. Das Arbeitsverzeichnis des gestarteten Programms ist dessen eigener Ordner. Bei einem Startfehler erscheint die Ursache unten im Fenster. Ein gestartetes Konsolenprogramm darf sein eigenes Konsolenfenster öffnen; der Programmstarter selbst läuft ohne Konsole.
+
+## Typische Fehler
+
+**<code>programme.txt</code> wird nicht gefunden**
+
+Die Datei muss neben der tatsächlich gestarteten <code>Programmstarter.exe</code> liegen. Bei Visual Studio ist das meistens der jeweilige <code>bin\\Debug</code>- oder <code>bin\\Release</code>-Ordner.
+
+**Ein Programm startet nicht**
+
+Den Pfad in <code>programme.txt</code> prüfen. Bei relativen Pfaden vom EXE-Ordner ausgehen. Für einen ersten Test einen vollständigen Pfad oder <code>%WINDIR%\\System32\\notepad.exe</code> verwenden.
+
+**Nach einer Änderung ist die alte Liste sichtbar**
+
+Die Datei speichern und danach **Neu laden** anklicken. Ein Neustart ist dafür nicht notwendig.
+
+**GTK-DLL fehlt**
+
+Nicht nur die EXE kopieren. Den vollständigen Ausgabeordner mit DLLs und dem Ordner <code>share\\glib-2.0\\schemas</code> verwenden.
+
+## Technischer Aufbau
+
+- <code>programmstarter.c</code> enthält Parser, GTK-Oberfläche und Programmstart.
+- <code>wWinMain</code> verwendet das Windows-Subsystem, damit kein zusätzliches Konsolenfenster erscheint.
+- <code>ShellExecuteExW</code> startet Programme unabhängig vom Programmstarter.
+- Die Pfade werden ohne Kommandozeileninterpreter gestartet.
+
+## Projektdateien
+
+- <code>Programmstarter.slnx</code> – Visual-Studio-Projektmappe
+- <code>Programmstarter.vcxproj</code> – Projekt- und vcpkg-Konfiguration
+- <code>programmstarter.c</code> – Quellcode
+- <code>Vorschau.png</code> – Bildschirmansicht
+- <code>programme.txt</code> – lokale Konfigurationsdatei neben der EXE (nicht Bestandteil des Repositorys)
+
+Eigene Pfade in <code>programme.txt</code> sind immer rechnerabhängig. Vor einer Weitergabe muss die Liste daher an den Zielrechner angepasst werden.
+
+## Lizenz und Nutzung
+
+Dieses Repository ist ein persönliches Lern- und Praxisprojekt. Vor einer Weitergabe bitte die vorhandene GTK-4-Lizenzierung und die verwendeten Abhängigkeiten beachten.
